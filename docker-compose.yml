@@ -1,0 +1,31 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  collectif:
+    image: "wordpress"
+    restart: always
+    environment:
+      - VIRTUAL_HOST=collectif-disrupt.com,*.collectif-disrupt.com
+    links:
+      - mysql:mysql
+    volumes:
+      - /root/wordpress:/var/www/html:rw
+  mysql:
+    image: "mysql"
+    restart: always
+    volumes:
+      - /root/mysql:/var/lib/mysql:rw
+  backup:
+    image: confirm/mysql-backup
+    volumes:
+        - /root/backup:/backup
+    links:
+        - mysql
+    restart: never

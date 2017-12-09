@@ -22,6 +22,8 @@ services:
     restart: always
     volumes:
       - /root/mysql:/var/lib/mysql:rw
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
   backup:
     image: confirm/mysql-backup
     volumes:

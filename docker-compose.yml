@@ -6,13 +6,19 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - /root/nginx:/etc/nginx/certs:ro
   collectif:
     image: "wordpress"
     restart: always
     environment:
-      - VIRTUAL_HOST=collectif-disrupt.com,*.collectif-disrupt.com
+      - VIRTUAL_HOST=collectif-disrupt.com,www.collectif-disrupt.com
+      - LETSENCRYPT_HOST=collectif-disrupt.com,www.collectif-disrupt.com
+      - LETSENCRYPT_EMAIL=contact@collectif-disrupt.com
     links:
       - mysql:mysql
     volumes:
@@ -24,3 +30,9 @@ services:
       - /root/mysql:/var/lib/mysql:rw
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
+  letsencrypt-nginx-proxy-companion:
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      volumes_from:
+        - "nginx-proxy"

@@ -1,15 +1,20 @@
-version: '3'
-
+version: '2'
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
   collectif:
-    depends_on:
-      - mysql
     image: "wordpress"
     restart: always
     environment:
-      VIRTUAL_HOST: collectif-disrupt.com,*.collectif-disrupt.com
-      LETSENCRYPT_HOST: collectif-disrupt.com,*.collectif-disrupt.com
-      LETSENCRYPT_EMAIL: contact@collectif-disrupt.com
+      - VIRTUAL_HOST=collectif-disrupt.com,*.collectif-disrupt.com
+    links:
+      - mysql:mysql
     volumes:
       - /root/wordpress:/var/www/html:rw
   mysql:
@@ -18,9 +23,4 @@ services:
     volumes:
       - /root/mysql:/var/lib/mysql:rw
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-
-networks:
-    default:
-       external:
-        name: ${NETWORK}
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes

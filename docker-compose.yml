@@ -2,14 +2,14 @@ version: '3'
 
 services:
   collectif:
+    depends_on:
+      - mysql
     image: "wordpress"
     restart: always
     environment:
       VIRTUAL_HOST: collectif-disrupt.com,*.collectif-disrupt.com
       LETSENCRYPT_HOST: collectif-disrupt.com,*.collectif-disrupt.com
       LETSENCRYPT_EMAIL: contact@collectif-disrupt.com
-    links:
-      - mysql:mysql
     volumes:
       - /root/wordpress:/var/www/html:rw
   mysql:

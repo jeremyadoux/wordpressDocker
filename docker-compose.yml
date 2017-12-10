@@ -18,9 +18,9 @@ services:
     volumes:
       - /root/mysql:/var/lib/mysql:rw
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
 
 networks:
     default:
        external:
-name: webproxy
+        name: ${NETWORK}

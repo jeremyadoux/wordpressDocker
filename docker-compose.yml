@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   collectif:
     image: "wordpress"
@@ -18,7 +19,8 @@ services:
       - /root/mysql:/var/lib/mysql:rw
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
+
 networks:
     default:
        external:
-name: ${NETWORK}
+name: webproxy

@@ -5,9 +5,9 @@ services:
     image: "wordpress"
     restart: always
     environment:
-      - VIRTUAL_HOST=collectif-disrupt.com,*.collectif-disrupt.com
-      - LETSENCRYPT_HOST=collectif-disrupt.com,*.collectif-disrupt.com
-      - LETSENCRYPT_EMAIL=contact@collectif-disrupt.com
+      VIRTUAL_HOST: collectif-disrupt.com,*.collectif-disrupt.com
+      LETSENCRYPT_HOST: collectif-disrupt.com,*.collectif-disrupt.com
+      LETSENCRYPT_EMAIL: contact@collectif-disrupt.com
     links:
       - mysql:mysql
     volumes:
@@ -18,7 +18,7 @@ services:
     volumes:
       - /root/mysql:/var/lib/mysql:rw
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
 
 networks:
     default:

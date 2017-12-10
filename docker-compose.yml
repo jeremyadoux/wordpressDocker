@@ -11,7 +11,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
-      - /root/nginx:/etc/nginx/certs:ro
+      - /root/nginx:/etc/nginx/certs:rw
   collectif:
     image: "wordpress"
     restart: always
